@@ -32,7 +32,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - ./docker/mysql:/docker-entrypoint-initdb.d
-      - ./docker/mysql:/var/lib/mysql
+      - ticket-volume:/var/lib/mysql
     networks:
       - ticket-app
 
@@ -65,3 +65,6 @@ services:
 networks:
   ticket-app:
     driver: bridge
+
+volumes:
+  ticket-volume:

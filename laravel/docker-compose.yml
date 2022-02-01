@@ -1,5 +1,7 @@
+# version docker
 version: '3.7'
 services:
+#  container apps
   app:
     build:
       args:
@@ -19,6 +21,7 @@ services:
     networks:
       - ticket-app
 
+# container database
   db:
     image: mysql:5.6.47
     container_name: ticket-db
@@ -36,6 +39,7 @@ services:
     networks:
       - ticket-app
 
+# container phpmyadmin
   phpmyadmin:
     depends_on:
       - db
@@ -50,6 +54,7 @@ services:
     networks:
       - ticket-app
 
+# container nginx
   nginx:
     image: nginx:alpine
     container_name: ticket-nginx
@@ -62,9 +67,11 @@ services:
     networks:
       - ticket-app
 
+# networks for shared connection to container
 networks:
   ticket-app:
     driver: bridge
 
+# volumes for storage database save to volume
 volumes:
   ticket-volume:

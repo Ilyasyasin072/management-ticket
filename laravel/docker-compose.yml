@@ -32,6 +32,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - ./docker/mysql:/docker-entrypoint-initdb.d
+      - ./docker/mysql:/var/lib/mysql
     networks:
       - ticket-app
 
@@ -40,7 +41,7 @@ services:
       - db
     image: phpmyadmin/phpmyadmin
     container_name: ticket-php-admin
-    restart: always
+    restart: unless-stopped
     ports:
       - '8088:80'
     environment:

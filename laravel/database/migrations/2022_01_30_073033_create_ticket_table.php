@@ -14,6 +14,7 @@ class CreateTicketTable extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
+            $table->id();
             $table->string('from');
             $table->string('to');
             $table->string('time');

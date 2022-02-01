@@ -1,22 +1,54 @@
-Name: Laravel
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
 jobs:
-  laravel-tests:
+  test:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/php:7.2-stretch
 
-    runs-on: ubuntu-latest
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # Using the RAM variation mitigates I/O contention
+      # for database intensive operations.
+      # - image: circleci/mysql:5.7-ram
+      # - image: redis:3
+      - image: circleci/mysql:8.0.20-ram
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_USER: ticket-db
+          MYSQL_DATABASE: root
+          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_PASSWORD: 'root'
 
     steps:
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
+      - checkout
+      - run:
+          name: Install MySQL driver
+          command: |
+            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+            sudo docker-php-ext-install zip bcmath pdo_mysql
+      # Download and cache dependencies
+
+      # composer cache
+      - restore_cache:
+          keys:
+            # "composer.json" can be used if "composer.json"
+            # is not committed to the repository.
+            - composer-v1-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - composer-v1-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test

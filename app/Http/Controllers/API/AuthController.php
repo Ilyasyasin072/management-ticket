@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function index() : JsonResponse {
         return response()->json([
-            'data' => $this->userRepo->getUser(),
+            'users' => $this->userRepo->getUser(),
         ],200);
     }
 }

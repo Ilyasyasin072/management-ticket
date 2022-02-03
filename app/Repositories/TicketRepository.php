@@ -21,6 +21,6 @@ class TicketRepository extends BaseRepository
     }
 
     public function getTicketAll() {
-        return Ticket::all();
+        return Ticket::where('user_id', auth()->user()->id)->get();
     }
 }

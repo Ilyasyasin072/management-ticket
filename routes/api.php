@@ -21,33 +21,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'auth'], function () {
     Route::group(['prefix' => 'user'], function(){
         Route::post('register', [\App\Http\Controllers\API\AuthController::class, 'register'])->name('register');
-        Route::get('get', [\App\Http\Controllers\API\AuthController::class, 'index'])->name('index');
         Route::post('login', [App\Http\Controllers\API\AuthController::class, 'login']);
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('profile', function(Request $request) {
                 return auth()->user();
             });
+            Route::get('get', [\App\Http\Controllers\API\AuthController::class, 'index'])->name('index');
             // API route for logout user
             Route::post('logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
+
+            Route::group(['prefix' => 'order'], function () {
+                Route::get('list-order', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
+            });
+
+            Route::group(['prefix' => 'ticket'], function () {
+                Route::get('user-ticket', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
+            });
+
+            Route::group(['prefix' => 'payment'], function () {
+                Route::get('payment-checkout', [\App\Http\Controllers\API\PaymentController::class, 'index'])->name('index');
+            });
         });
     });
-
-
 });
-
 
 Route::group(['prefix' => 'ticket'], function () {
-        Route::get('list-get', [\App\Http\Controllers\API\TicketController::class, 'index'])->name('index');
+    Route::get('list-get', [\App\Http\Controllers\API\TicketController::class, 'index'])->name('index');
 });
 
-Route::group(['prefix' => 'order'], function () {
-    Route::get('list-order', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
-});
-
-Route::group(['prefix' => 'payment'], function () {
-    Route::get('payment-checkout', [\App\Http\Controllers\API\PaymentController::class, 'index'])->name('index');
-});
 
 Route::group(['prefix'=> '/'], function() {
     Route::get('/', function(){

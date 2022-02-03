@@ -32,6 +32,10 @@ Route::group(['prefix' => 'order'], function () {
     Route::get('list-order', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
 });
 
+Route::group(['prefix' => 'payment'], function () {
+    Route::get('payment-checkout', [\App\Http\Controllers\API\PaymentController::class, 'index'])->name('index');
+});
+
 Route::group(['prefix'=> '/'], function() {
     Route::get('/', function(){
         return response()->json(

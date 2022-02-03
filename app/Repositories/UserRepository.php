@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\User;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+
+use Illuminate\Support\Facades\Auth;
 //use Your Model
 
 /**
@@ -22,7 +24,25 @@ class UserRepository extends BaseRepository
     }
     public function getUser()
     {
-        return User::all();
+        $checkUser = $this->userCheck();
+        if($checkUser) {
+            return $checkUser;
+        } else {
+            return null;
+        }
+    }
+
+    public function userCheck() {
+        if(auth()->check()) {
+            $user = User::where('email', auth()->user()->email)->firstOrFail();
+            if($user) {
+                return $user;
+            }
+        }
+
+        return response()->json('Unauthorized');
+
+
     }
 
 }

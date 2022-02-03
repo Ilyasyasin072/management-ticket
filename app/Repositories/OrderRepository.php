@@ -21,6 +21,6 @@ class OrderRepository extends BaseRepository
     }
 
     public function getOrder() {
-        return Orders::with(['users', 'ticket'])->get();
+        return Orders::with(['users', 'ticket'])->where('user_id', auth()->user()->id )->get();
     }
 }

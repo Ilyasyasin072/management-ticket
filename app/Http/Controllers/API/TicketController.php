@@ -13,9 +13,8 @@ class TicketController extends Controller {
     }
 
     public function index() : JsonResponse {
-
         try {
-            return response()->json($this->tickerRepo->getTicketAll());
+            return response()->json($this->ticketRepo->getTicketAll());
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\Ticket;
+use App\Models\Orders;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 //use Your Model
 
 /**
- * Class TicketRepository.
+ * Class OrderRepository.
  */
-class TicketRepository extends BaseRepository
+class OrderRepository extends BaseRepository
 {
     /**
      * @return string
@@ -17,10 +17,10 @@ class TicketRepository extends BaseRepository
      */
     public function model()
     {
-        return Ticket::class;
+        return Orders::class;
     }
 
-    public function getTicketAll() {
-        return Ticket::all();
+    public function getOrder() {
+        return Orders::with(['users', 'ticket'])->get();
     }
 }

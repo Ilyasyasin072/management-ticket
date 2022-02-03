@@ -6,20 +6,16 @@ use App\Repositories\TicketRepository;
 use Illuminate\Http\JsonResponse;
 
 class TicketController extends Controller {
-
-    public $tickerRepo;
-
+    public $ticketRepo;
     public function __construct(TicketRepository $ticketRepository)
     {
-        $this->tickerRepo = $ticketRepository;
+        $this->ticketRepo = $ticketRepository;
     }
 
     public function index() : JsonResponse {
 
-        $ticket = $this->tickerRepo->getTicketALl();
-
         try {
-            return response()->json($ticket);
+            return response()->json($this->tickerRepo->getTicketAll());
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

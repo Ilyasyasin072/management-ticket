@@ -24,9 +24,9 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-//Route::group(['prefix' => 'ticket'], function () {
-//        Route::get('list-get', [\App\Http\Controllers\API\TicketController::class, 'index'])->name('index');
-//});
+Route::group(['prefix' => 'ticket'], function () {
+        Route::get('list-get', [\App\Http\Controllers\API\TicketController::class, 'index'])->name('index');
+});
 
 Route::group(['prefix' => 'order'], function () {
     Route::get('list-order', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');

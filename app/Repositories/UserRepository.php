@@ -24,4 +24,5 @@ class UserRepository extends BaseRepository
     {
         return User::all();
     }
+
 }

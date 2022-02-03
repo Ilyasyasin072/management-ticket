@@ -22,7 +22,26 @@ class UserRepository extends BaseRepository
     }
     public function getUser()
     {
-        return User::all();
+        $checkUser = $this->userCheck();
+        $token = $checkUser->createToken('auth_token')->plainTextToken;
+        if($token) {
+            return $checkUser;
+        } else {
+            return null;
+        }
+    }
+
+    public function userCheck() {
+        if(auth()->check()) {
+            $user = User::where('email', auth()->users()->email)->firstOrFail();
+            if($user) {
+                return $user;
+            }
+        }
+
+        return response()->json('Unauthorized');
+
+
     }
 
 }

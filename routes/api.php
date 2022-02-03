@@ -20,9 +20,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::group(['prefix' => 'user'], function(){
+        Route::post('register', [\App\Http\Controllers\API\AuthController::class, 'register'])->name('register');
         Route::get('get', [\App\Http\Controllers\API\AuthController::class, 'index'])->name('index');
+        Route::post('login', [App\Http\Controllers\API\AuthController::class, 'login']);
+
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::get('profile', function(Request $request) {
+                return auth()->user();
+            });
+            // API route for logout user
+            Route::post('logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
+        });
     });
+
+
 });
+
 
 Route::group(['prefix' => 'ticket'], function () {
         Route::get('list-get', [\App\Http\Controllers\API\TicketController::class, 'index'])->name('index');

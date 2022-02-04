@@ -47,7 +47,7 @@ class OrderController extends Controller {
 
             $this->orderRepo->create($data);
 
-            return response()->json(['success']);
+            return response()->json((object) 'success');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

@@ -39,6 +39,13 @@ Route::group(['prefix' => 'auth'], function () {
                 Route::get('payment-checkout', [\App\Http\Controllers\API\PaymentController::class, 'index'])->name('index');
             });
         });
+
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::group(['prefix' => 'order-ticket'], function() {
+                Route::post('create', [\App\Http\Controllers\API\OrderController::class, 'create'])->name('order-ticket');
+            });
+        });
+
     });
 });
 

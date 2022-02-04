@@ -35,10 +35,6 @@ Route::group(['prefix' => 'auth'], function () {
                 Route::get('list-order', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
             });
 
-            Route::group(['prefix' => 'ticket'], function () {
-                Route::get('user-ticket', [\App\Http\Controllers\API\OrderController::class, 'index'])->name('index');
-            });
-
             Route::group(['prefix' => 'payment'], function () {
                 Route::get('payment-checkout', [\App\Http\Controllers\API\PaymentController::class, 'index'])->name('index');
             });

@@ -20,7 +20,19 @@ class TicketRepository extends BaseRepository
         return Ticket::class;
     }
 
-    public function getTicketAll() {
-        return Ticket::all();
+    public function getTicketAll($from = null, $to = null) {
+        if(!isset($from) && !isset($to)) {
+            return Ticket::all();
+        } else {
+            if($from && $to == null) {
+                return Ticket::where('from', $from)->get();
+            }
+            else if($to && $from == null) {
+                return Ticket::where('to', $to)->get();
+            } else {
+                return Ticket::where('from', $from)->where('to', $to)->get();
+            }
+
+        }
     }
 }

@@ -20,7 +20,10 @@ class PaymentFactory extends Factory
         return [
             'order_id' => 1,
             'sum_price' => 2000,
-            'status' => 'pay'
+            'status' => 'pay',
+            'code_fixed' => 'PAY',
+            'bank_id' => 1,
+            'code_bank_user' => 'BCA'
         ];
     }
 }

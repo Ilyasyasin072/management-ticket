@@ -1,7 +1,7 @@
 ## Project Travel Api With Docker-Compose
 
 **Management Ticket**
-
+- [Flow Management Ticket](https://drive.google.com/file/d/1xdyua_9qfooiFLxINGtlPfnQxNVxXXRB/view?usp=sharing)
 - Tickets have a limit as long as it's less than now the stock will decrease
 - ticket purchased before departure time
 

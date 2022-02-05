@@ -23,7 +23,8 @@ class PaymentFactory extends Factory
             'status' => 'pay',
             'code_fixed' => 'PAY',
             'bank_id' => 1,
-            'code_bank_user' => 'BCA'
+            'code_bank_user' => 'BCA',
+            'user_id' => 1
         ];
     }
 }

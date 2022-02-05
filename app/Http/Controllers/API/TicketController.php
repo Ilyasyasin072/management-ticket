@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Repositories\TicketRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller {
     public $ticketRepo;
@@ -12,9 +13,11 @@ class TicketController extends Controller {
         $this->ticketRepo = $ticketRepository;
     }
 
-    public function index() : JsonResponse {
+    public function index(Request $request) : JsonResponse {
         try {
-            return response()->json($this->ticketRepo->getTicketAll());
+            $from = $request->from;
+            $to = $request->to;
+            return response()->json($this->ticketRepo->getTicketAll($from, $to));
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

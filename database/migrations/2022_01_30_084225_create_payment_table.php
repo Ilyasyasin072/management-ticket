@@ -18,6 +18,7 @@ class CreatePaymentTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->integer('sum_price');
             $table->string('status');
+            $table->unsignedBigInteger('user_id');
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
             $table->timestamps();

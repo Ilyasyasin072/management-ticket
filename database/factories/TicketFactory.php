@@ -16,12 +16,14 @@ class TicketFactory extends Factory
 
     public function definition()
     {
-        return [
-            'from' => $this->faker->dateTime,
-            'to' => $this->faker->dateTimeAD,
-            'time' => $this->faker->time,
+        $data = [
+            'from' => 'Jakarta',
+            'to' => 'Bandung',
+            'time' => $this->faker->time(),
             'ticket_stock' => $this->faker->numerify,
             'price' => $this->faker->randomNumber(),
         ];
+
+        return $data;
     }
 }

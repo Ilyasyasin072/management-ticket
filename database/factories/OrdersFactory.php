@@ -24,6 +24,7 @@ class OrdersFactory extends Factory
             'ticket_count' => $this->faker->numerify,
             'price' => $this->faker->numerify,
             'status' => $this->faker->boolean,
+            'code_temp' => 'anc'
         ];
     }
 

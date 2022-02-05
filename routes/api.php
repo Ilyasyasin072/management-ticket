@@ -44,6 +44,9 @@ Route::group(['prefix' => 'auth'], function () {
             Route::group(['prefix' => 'order-ticket'], function() {
                 Route::post('create', [\App\Http\Controllers\API\OrderController::class, 'create'])->name('order-ticket');
             });
+            Route::group(['prefix' => 'checkout-order'], function() {
+                Route::post('/', [\App\Http\Controllers\API\PaymentController::class, 'create'])->name('checkout-pay');
+            });
         });
 
     });

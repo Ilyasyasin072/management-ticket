@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
+use App\Models\Orders;
+use App\Models\Ticket;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
@@ -31,7 +33,6 @@ class PaymentController extends Controller {
         try {
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
-                'sum_price' => 'required',
                 'status' =>  'required',
                 'code_fixed' => 'required',
                 'bank_id' => 'required',
@@ -42,9 +43,16 @@ class PaymentController extends Controller {
                 return response()->json($validator->errors());
             }
 
+            $checkOrderTicket = Orders::with('ticket')->where('id', $request->order_id)->get();
+
+            $price = 0;
+            if($checkOrderTicket) {
+                $price += ($checkOrderTicket[0]->ticket->price * $checkOrderTicket[0]->ticket_count);
+            }
+
             $data = [
                 'order_id' => $request->order_id,
-                'sum_price' =>  $request->sum_price,
+                'sum_price' =>  $price,
                 'status' =>   $this->paymentRepo->PAY_SUCCESS,
                 'code_fixed' =>  'PAY'. Str::random(4),
                 'bank_id' =>  $request->bank_id,

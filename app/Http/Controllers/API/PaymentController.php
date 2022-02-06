@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use DNS1D;
 
 class PaymentController extends Controller {
 
@@ -54,7 +55,7 @@ class PaymentController extends Controller {
                 'order_id' => $request->order_id,
                 'sum_price' =>  $price,
                 'status' =>   $this->paymentRepo->PAY_SUCCESS,
-                'code_fixed' =>  'PAY'. Str::random(4),
+                'code_fixed' =>  'PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id,
                 'bank_id' =>  $request->bank_id,
                 'code_bank_user' =>  $request->code_bank_user,
                 'user_id' => auth()->user()->id,
@@ -62,7 +63,21 @@ class PaymentController extends Controller {
 
             $this->paymentRepo->create($data);
 
-            return response()->json((object) 'success');
+            $sizeW = 1;
+            $sizeH = 33;
+            $codeBarcode = 'C39+';
+            $coloeBarcode = array(0,0,0);
+            $textBarcode = true;
+
+            $da =DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode);
+            \Storage::disk('public')->put($da,(DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode)));
+
+            $data = [
+                'image' => \URL::to($da),
+                'success' => true
+            ];
+
+            return response()->json($data);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

@@ -47,6 +47,10 @@ Route::group(['prefix' => 'auth'], function () {
             Route::group(['prefix' => 'checkout-order'], function() {
                 Route::post('/', [\App\Http\Controllers\API\PaymentController::class, 'create'])->name('checkout-pay');
             });
+
+            Route::group(['prefix'=> 'status-payment'], function() {
+                Route::get('/', [\App\Http\Controllers\API\PaymentController::class, 'showPayOrder'])->name('status-payment');
+            });
         });
 
     });

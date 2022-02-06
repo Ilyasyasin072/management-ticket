@@ -17,4 +17,5 @@ class Ticket extends Model
     {
         return $this->hasMany(Orders::class, 'id');
     }
+
 }

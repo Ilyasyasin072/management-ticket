@@ -71,7 +71,7 @@ Route::group(['prefix'=> '/'], function() {
 
 Route::get('storage/{filename}', function ($filename)
 {
-    $path = storage_path('public/' . DNS1D::getBarcodePNGPath('pay11321c39.png'));
+    $path =  \Storage::disk('public')->path('pay11321c39.png',DNS1D::getBarcodePNGPath('pay11321c39', 'C39+', true));
 
     if (!File::exists($path)) {
         abort(404);

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use DNS1D;
 class OrderController extends Controller {
 
     public $orderRepo;
@@ -51,9 +51,7 @@ class OrderController extends Controller {
 //                'code_temp' => 'ODR' . strtoupper(Str::random(4)),
                    'status' => 0
                ];
-
                $this->orderRepo->create($data);
-
                return response()->json((object) 'success');
            }
         } catch (\Exception $e) {

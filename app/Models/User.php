@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Orders::class, 'id');
     }
+
+    public function payment(): HasMany
+    {
+        return $this->hasManyThrough(Payment::class, 'id');
+    }
 }

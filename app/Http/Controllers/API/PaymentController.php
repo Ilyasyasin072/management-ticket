@@ -51,6 +51,16 @@ class PaymentController extends Controller {
                 $price += ($checkOrderTicket[0]->ticket->price * $checkOrderTicket[0]->ticket_count);
             }
 
+            $sizeW = 1;
+            $sizeH = 33;
+            $codeBarcode = 'C39+';
+            $coloeBarcode = array(0,0,0);
+            $textBarcode = true;
+
+            $da = DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode);
+            \Storage::disk('public')->put($da,(DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode)));
+
+
             $data = [
                 'order_id' => $request->order_id,
                 'sum_price' =>  $price,
@@ -59,27 +69,22 @@ class PaymentController extends Controller {
                 'bank_id' =>  $request->bank_id,
                 'code_bank_user' =>  $request->code_bank_user,
                 'user_id' => auth()->user()->id,
+                'url_barcode' => \URL::to($da)
             ];
 
             $this->paymentRepo->create($data);
 
-            $sizeW = 1;
-            $sizeH = 33;
-            $codeBarcode = 'C39+';
-            $coloeBarcode = array(0,0,0);
-            $textBarcode = true;
-
-            $da =DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode);
-            \Storage::disk('public')->put($da,(DNS1D::getBarcodePNGPath('PAY'.$this->paymentRepo->PAY_SUCCESS.$this->paymentRepo->PAY_SUCCESS.$request->bank_id, $codeBarcode,$sizeW,$sizeH,$coloeBarcode, $textBarcode)));
-
-            $data = [
-                'image' => \URL::to($da),
-                'success' => true
-            ];
-
-            return response()->json($data);
+            return response()->json((object) 'success');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
+        }
+    }
+
+    public function showPayOrder() {
+        try {
+            return $this->paymentRepo->payUsersOrder();
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
         }
     }
 }

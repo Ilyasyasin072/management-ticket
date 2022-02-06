@@ -68,3 +68,20 @@ Route::group(['prefix'=> '/'], function() {
         );
     });
 });
+
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('public/' . DNS1D::getBarcodePNGPath('pay11321c39.png'));
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});

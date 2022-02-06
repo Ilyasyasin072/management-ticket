@@ -14,7 +14,7 @@ class CreateForetPayTable extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('orders');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

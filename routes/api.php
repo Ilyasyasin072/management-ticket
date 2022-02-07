@@ -49,7 +49,7 @@ Route::group(['prefix' => 'auth'], function () {
             });
 
             Route::group(['prefix'=> 'status-payment'], function() {
-                Route::get('/', [\App\Http\Controllers\API\PaymentController::class, 'showPayOrder'])->name('status-payment');
+                Route::get('/{id}', [\App\Http\Controllers\API\PaymentController::class, 'showPayOrder'])->name('status-payment');
             });
         });
 

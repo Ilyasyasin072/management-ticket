@@ -40,7 +40,7 @@ class OrderController extends Controller {
             }
 
 
-            $getPriceTicket = Ticket::find($request->ticket_id)->first();
+            $getPriceTicket = Ticket::findOrFail($request->ticket_id);
 
            if($getPriceTicket) {
                $data = [

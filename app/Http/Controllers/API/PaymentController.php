@@ -80,9 +80,9 @@ class PaymentController extends Controller {
         }
     }
 
-    public function showPayOrder() {
+    public function showPayOrder(Request $request) {
         try {
-            return $this->paymentRepo->payUsersOrder();
+            return $this->paymentRepo->payUsersOrder($request->order_id);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }

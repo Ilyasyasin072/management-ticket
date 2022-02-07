@@ -43,6 +43,6 @@ class PaymentRepository extends BaseRepository
                     'payments.sum_price', 'payments.bank_id',
                     'payments.code_fixed', 'tickets.time',
                     'orders.ticket_count', 'users.name', 'payments.url_barcode')
-            ->get();
+            ->first();
     }
 }

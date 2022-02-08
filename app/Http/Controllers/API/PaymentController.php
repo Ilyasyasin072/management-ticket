@@ -44,11 +44,14 @@ class PaymentController extends Controller {
                 return response()->json($validator->errors());
             }
 
-            $checkOrderTicket = Orders::with('ticket')->where('id', $request->order_id)->get();
+            $checkOrderTicket = Orders::with('ticket')
+                    ->where('id', $request->order_id)
+                    ->where('user_id', auth()->user()->id)
+                ->first();
 
             $price = 0;
             if($checkOrderTicket) {
-                $price += ($checkOrderTicket[0]->ticket->price * $checkOrderTicket[0]->ticket_count);
+                $price += ($checkOrderTicket->ticket->price * $checkOrderTicket->ticket_count);
             }
 
             $sizeW = 1;

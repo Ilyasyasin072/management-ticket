@@ -22,7 +22,7 @@ class TicketRepository extends BaseRepository
 
     public function getTicketAll($from = null, $to = null) {
         if(!isset($from) && !isset($to)) {
-            return Ticket::paginate(10);
+            return Ticket::paginate(5);
         } else {
             if($from && $to == null) {
                 return Ticket::where('from', 'LIKE', '%' .$from .'%')->paginate();
